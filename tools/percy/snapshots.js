@@ -25,6 +25,10 @@ const pagesToTest = [
     title: "Codelab page",
   },
   {
+    url: "podcasts",
+    title: "Podcasts page",
+  },
+  {
     url: "handbook/web-dev-components",
     title: "Components page",
   },
