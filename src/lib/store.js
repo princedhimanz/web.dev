@@ -1,7 +1,7 @@
 import createStore from "unistore";
 import devtools from "unistore/devtools";
 import getMeta from "./utils/meta";
-import config from "webdev_config";
+import {prod as isProd} from "webdev_config";
 
 /* eslint-disable require-jsdoc */
 
@@ -45,7 +45,7 @@ const initialState = {
   // cookie policy.
   // We automatically accept cookies in dev and test environments so the cookie
   // banner doesn't interfere with tests.
-  userAcceptsCookies: !config.prod,
+  userAcceptsCookies: !isProd,
 
   // Handle hiding/showing the snackbar.
   showingSnackbar: false,
@@ -53,7 +53,7 @@ const initialState = {
 };
 
 let store;
-if (config.prod) {
+if (isProd) {
   store = createStore(initialState);
 } else {
   store = devtools(createStore(initialState));
