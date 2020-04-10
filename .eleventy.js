@@ -81,8 +81,7 @@ const stripLanguage = require(`./${filtersDir}/strip-language`);
 const transformsDir = 'src/site/_transforms';
 const disableLazyLoad = require(`./${transformsDir}/disable-lazy-load`);
 const {responsiveImages} = require(`./${transformsDir}/responsive-images`);
-
-const buildPartial = require('./src/site/_utils/build-partial');
+const {serviceWorkerPartials} = require(`./${transformsDir}/service-worker-partials`);
 
 module.exports = function(config) {
   //----------------------------------------------------------------------------
@@ -213,7 +212,6 @@ module.exports = function(config) {
   config.addShortcode('Instruction', Instruction);
   config.addPairedShortcode('Label', Label);
   config.addShortcode('Meta', Meta);
-  config.addPairedShortcode('Partial', buildPartial());
   config.addShortcode('PathCard', PathCard);
   config.addShortcode('PostCard', PostCard);
   config.addShortcode('SignPosts', SignPosts);
@@ -231,6 +229,15 @@ module.exports = function(config) {
     config.addTransform('responsive-images', responsiveImages);
   }
 
+  // !!! Important !!!
+  // This transform should always go last.
+  // It takes the final html and turns it into partials that the
+  // service worker can load.
+  config.addTransform('service-worker-partials', serviceWorkerPartials);
+
+  //----------------------------------------------------------------------------
+  // ELEVENTY OPTIONS
+  //----------------------------------------------------------------------------
   // https://www.11ty.io/docs/config/#data-deep-merge
   config.setDataDeepMerge(true);
 
